@@ -1,0 +1,37 @@
+.TH XDELTA3-GUI 1 "August 2026" "xdelta3-gui" "User Commands"
+.SH NAME
+xdelta3-gui \- graphical interface for creating and applying xdelta3 patches
+.SH SYNOPSIS
+.B xdelta3-gui
+.RI [ options ]
+.RI [ file ]
+.SH DESCRIPTION
+.B xdelta3-gui
+is a Qt graphical interface for the
+.BR xdelta3 (1)
+binary delta tool. It can create a patch from source and target files or
+apply a patch to a source file.
+.PP
+If
+.I file
+names an existing delta file, the application opens the Apply Patch tab and
+selects that file as the patch to apply.
+.SH OPTIONS
+.TP
+.BR \-h ", " \--help
+Display command-line help and exit.
+.TP
+.BR \-v ", " \--version
+Display version information and exit.
+.SH FILES
+The application stores window geometry, compression preferences, and recently
+used directories with the Qt settings system.
+.SH DEPENDENCIES
+.B xdelta3
+must be available in
+.BR PATH .
+The optional
+.B progress
+utility is used to improve progress reporting while creating patches.
+.SH SEE ALSO
+.BR xdelta3 (1)
