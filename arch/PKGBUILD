@@ -42,4 +42,8 @@ build() {
 package() {
   cd "${srcdir}/${_srcdir}/build"
   DESTDIR="${pkgdir}" ninja install
+    # namcap flags a declared license= with nothing under
+    # /usr/share/licenses. The file is in the source; it was simply never
+    # installed.
+    install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
 }
