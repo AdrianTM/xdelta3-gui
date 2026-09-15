@@ -1,0 +1,45 @@
+# Maintainer: Adrian <adrian@mxlinux.org>
+
+# PKGBUILD for building on the Open Build Service.
+#
+# OBS build VMs have no network, so every source has to be present in the
+# package's OBS sources before the build starts. This consumes the Debian
+# native tarball that release builds commit to debs/ - it carries the complete
+# source tree - instead of fetching a GitHub tarball the way aur/PKGBUILD does.
+#
+# Keep pkgver in step with debian/changelog: it names the tarball.
+
+pkgname=xdelta3-gui
+pkgver=26.07
+pkgrel=1
+pkgdesc="GUI for xdelta3 application"
+arch=("x86_64")
+url="https://github.com/AdrianTM/xdelta3-gui"
+license=("GPL-3.0-or-later")
+depends=("qt6-base" "qt6-svg" "xdelta3")
+makedepends=("cmake" "ninja" "qt6-tools")
+optdepends=("progress: show progress while creating patches")
+source=("${pkgname}_${pkgver}.tar.xz")
+sha256sums=('SKIP')
+
+# dpkg-source packed this tarball from a directory called "src", so that - not
+# ${pkgname}-${pkgver} - is what it unpacks to.
+_srcdir="src"
+
+build() {
+  cd "${srcdir}/${_srcdir}"
+  mkdir -p build
+  cd build
+
+  cmake -G Ninja .. \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+  ninja
+}
+
+package() {
+  cd "${srcdir}/${_srcdir}/build"
+  DESTDIR="${pkgdir}" ninja install
+}
